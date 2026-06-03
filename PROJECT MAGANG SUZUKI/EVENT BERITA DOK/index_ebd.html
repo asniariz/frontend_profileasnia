@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Event & Berita Suzuki</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #003399;
+      --text: #0A0A0A;
+      --muted: #717182;
+      --surface: #ffffff;
+      --surface-strong: #f4f6fb;
+      --border: rgba(0, 51, 153, 0.12);
+    }
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      width: 100%;
+    }
+    body {
+      font-family: Inter, system-ui, sans-serif;
+      background: var(--surface-strong);
+      color: var(--text);
+    }
+    .page {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 24px 0 40px;
+    }
+    .container {
+      width: min(1200px, 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding: 0 24px;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 24px;
+      background: var(--surface);
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.08);
+    }
+    .logo img {
+      width: 185px;
+      height: auto;
+      display: block;
+    }
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .nav-link {
+      height: 36px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: var(--surface);
+      border: 1px solid var(--blue);
+      color: var(--blue);
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .nav-link.active {
+      background: var(--blue);
+      color: #ffffff;
+      border-color: var(--blue);
+    }
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+      padding: 32px;
+      background: var(--surface);
+      border-radius: 24px;
+      border: 1px solid #003399;
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.08);
+    }
+    .page-header h1 {
+      margin: 0;
+      font-size: clamp(32px, 3vw, 42px);
+      font-weight: 700;
+      line-height: 1.05;
+      color: var(--blue);
+    }
+    .page-header p {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 24px;
+      max-width: 680px;
+    }
+    .page-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .button-primary,
+    .button-secondary {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .button-primary {
+      background: var(--blue);
+      color: #ffffff;
+    }
+    .button-secondary {
+      background: #ffffff;
+      color: var(--blue);
+      border: 1px solid var(--blue);
+    }
+    .hero-section {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+    .hero-visual {
+      background: #ececf0;
+      border-radius: 24px;
+      min-height: 498px;
+    }
+    .hero-card {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      background: var(--blue);
+      border-radius: 24px;
+      color: #ffffff;
+      padding: 32px;
+      min-height: 498px;
+      position: relative;
+    }
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 12px;
+      background: #ffffff;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 600;
+      width: fit-content;
+    }
+    .hero-card h2 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    .hero-card p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 24px;
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 620px;
+    }
+    .hero-info-list {
+      display: grid;
+      gap: 12px;
+    }
+    .hero-info-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: rgba(255, 255, 255, 0.95);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .hero-info-icon {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.9);
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-info-icon::after {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: rgba(255,255,255,0.9);
+      display: block;
+      border-radius: 50%;
+    }
+    .benefits {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-left: 4px;
+    }
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: rgba(255, 255, 255, 0.95);
+      font-size: 14px;
+      line-height: 20px;
+    }
+    .benefit-dot {
+      width: 8px;
+      height: 8px;
+      margin-top: 6px;
+      background: #ffffff;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .hero-card .button-primary {
+      width: fit-content;
+      padding: 12px 18px;
+      font-weight: 600;
+    }
+    .section-title {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 32px;
+    }
+    .small-title {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 24px;
+    }
+    .cards-grid {
+      display: grid;
+      gap: 24px;
+    }
+    .event-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .news-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .docs-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-bottom: 40px;
+    }
+    .event-card,
+    .news-card,
+    .doc-card {
+      background: var(--blue);
+      border-radius: 18px;
+      padding: 24px;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      min-height: 238px;
+      justify-content: space-between;
+    }
+    .event-card .card-top,
+    .news-card .card-top,
+    .doc-card .card-top {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .card-pill {
+      width: fit-content;
+      padding: 6px 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .event-card h3,
+    .news-card h3,
+    .doc-card h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 28px;
+    }
+    .event-card p,
+    .news-card p,
+    .doc-card p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 22px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    .event-meta,
+    .news-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 14px;
+      align-items: center;
+    }
+    .event-meta span,
+    .news-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .event-meta span::before,
+    .news-meta span::before {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border: 2px solid rgba(255,255,255,0.9);
+      border-radius: 50%;
+      display: inline-flex;
+    }
+    .card-button {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 16px;
+      background: #ffffff;
+      color: var(--blue);
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+    }
+    .news-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      background: var(--blue);
+      border-radius: 16px;
+      padding: 4px;
+      width: fit-content;
+      margin-top: 12px;
+      margin-bottom: 18px;
+    }
+    .news-filter button {
+      border: none;
+      border-radius: 14px;
+      padding: 8px 14px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      background: transparent;
+      color: #ffffff;
+    }
+    .news-filter button.active {
+      background: #ffffff;
+      color: var(--text);
+    }
+    .docs-card {
+      background: #ffffff;
+      color: var(--text);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-radius: 18px;
+      overflow: hidden;
+      min-height: 220px;
+    }
+    .docs-card .doc-visual {
+      background: #ececf0;
+      min-height: 130px;
+    }
+    .docs-card .doc-content {
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .docs-card .doc-pill {
+      width: fit-content;
+      padding: 6px 12px;
+      border-radius: 12px;
+      background: rgba(0, 51, 153, 0.1);
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .docs-card h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 24px;
+    }
+    .view-all-btn {
+      display: block;
+      width: fit-content;
+      margin: 48px auto 0;
+      padding: 12px 24px;
+      border-radius: 12px;
+      border: none;
+      background: var(--blue);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+    }
+    .footer-card {
+      display: grid;
+      grid-template-columns: 280px repeat(3, minmax(0, 1fr));
+      gap: 24px;
+      background: var(--surface);
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.08);
+      padding: 32px;
+    }
+    .footer-logo {
+      width: 140px;
+      height: auto;
+      display: block;
+      margin-bottom: 18px;
+    }
+    .footer-info {
+      color: #003399;
+      font-size: 14px;
+      line-height: 1.8;
+      font-weight: 400;
+    }
+    .footer-column {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .footer-column h4 {
+      margin: 0 0 12px;
+      color: #003399;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .footer-column p {
+      margin: 8px 0 0;
+      color: #003399;
+      font-size: 14px;
+      line-height: 1.8;
+      font-weight: 400;
+    }
+    .footer-bottom {
+      padding-top: 24px;
+      border-top: 1px rgba(0, 51, 153, 0.15) solid;
+      text-align: center;
+      color: rgba(0, 51, 153, 0.88);
+      font-size: 14px;
+    }
+    @media (max-width: 1080px) {
+      .hero-section,
+      .event-grid,
+      .news-grid,
+      .docs-grid,
+      .footer-card {
+        grid-template-columns: 1fr;
+      }
+      .page-header,
+      .topbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .page-actions {
+        justify-content: flex-start;
+      }
+    }
+    @media (max-width: 720px) {
+      .topbar,
+      .page-header {
+        padding: 18px 18px;
+      }
+      .nav-link {
+        flex: 1 1 45%;
+      }
+      .event-meta,
+      .news-meta {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .news-filter {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="container">
+      <header class="topbar">
+        <div class="logo"><img src="image 2.png" alt="Suzuki logo"></div>
+        <nav class="nav-links">
+          <a class="nav-link" href="../BERANDA/index_beranda.html">Beranda</a>
+          <a class="nav-link" href="../KATALOG/katalog.html">Katalog Motor</a>
+          <a class="nav-link" href="../BANDING MOTOR/index_bm.html">Bandingkan Motor</a>
+          <a class="nav-link active" href="index_ebd.html">Event & Berita</a>
+        </nav>
+      </header>
+      <section class="page-header">
+        <div>
+          <h1>Event & Berita Suzuki</h1>
+          <p>Informasi terbaru seputar event, berita, dan dokumentasi kegiatan Suzuki Indonesia.</p>
+        </div>
+        <div class="page-actions">
+          <a class="button-primary" href="../TAMBAH EVENT/index_tev.html">Tambah Event</a>
+          <a class="button-secondary" href="../TAMBAH BERITA/index_tb.html">Tambah Berita</a>
+        </div>
+      </section>
+      <section class="hero-section">
+        <div class="hero-visual"></div>
+        <article class="hero-card">
+          <span class="hero-pill">Event Utama</span>
+          <h2>Suzuki Test Ride Festival 2026</h2>
+          <p>Event test ride terbesar tahun ini! Coba langsung semua motor Suzuki terbaru dan dapatkan berbagai penawaran spesial.</p>
+          <div class="hero-info-list">
+            <div class="hero-info-item"><span class="hero-info-icon"></span>Jakarta International Expo</div>
+            <div class="hero-info-item"><span class="hero-info-icon"></span>1-3 Juni 2026</div>
+            <div class="hero-info-item"><span class="hero-info-icon"></span>09:00 - 17:00 WIB</div>
+          </div>
+          <div>
+            <div class="benefits">
+              <div class="benefit-item"><span class="benefit-dot"></span>Test ride semua motor Suzuki</div>
+              <div class="benefit-item"><span class="benefit-dot"></span>Promo DP mulai 0%</div>
+              <div class="benefit-item"><span class="benefit-dot"></span>Doorprize motor Suzuki</div>
+              <div class="benefit-item"><span class="benefit-dot"></span>Voucher servis gratis senilai Rp 500.000</div>
+            </div>
+          </div>
+          <a class="button-primary" href="#">Lihat Detail Event</a>
+        </article>
+      </section>
+      <section>
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;">
+          <h2 class="section-title">Event Mendatang</h2>
+        </div>
+        <div class="cards-grid event-grid">
+          <article class="event-card">
+            <div class="card-top">
+              <span class="card-pill">Touring</span>
+              <h3>Sunday Ride Bandung</h3>
+              <p>Bandung, Jawa Barat</p>
+              <p>15 Juni 2026</p>
+            </div>
+            <a class="card-button" href="#">Lihat Detail</a>
+          </article>
+          <article class="event-card">
+            <div class="card-top">
+              <span class="card-pill">Workshop</span>
+              <h3>Workshop Maintenance Tips</h3>
+              <p>Dealer Suzuki Jakarta Selatan</p>
+              <p>20 Juni 2026</p>
+            </div>
+            <a class="card-button" href="#">Lihat Detail</a>
+          </article>
+          <article class="event-card">
+            <div class="card-top">
+              <span class="card-pill">Promo</span>
+              <h3>Promo Ramadan Suzuki</h3>
+              <p>Semua Dealer Indonesia</p>
+              <p>1-30 Juli 2026</p>
+            </div>
+            <a class="card-button" href="#">Lihat Detail</a>
+          </article>
+        </div>
+      </section>
+      <section>
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div>
+            <h2 class="section-title">Berita Terkini Suzuki</h2>
+          </div>
+          <div class="news-filter">
+            <button class="active" type="button">Semua</button>
+            <button type="button">Promo</button>
+            <button type="button">Event</button>
+            <button type="button">Produk Baru</button>
+            <button type="button">Tips</button>
+          </div>
+        </div>
+        <div class="cards-grid news-grid">
+          <article class="news-card">
+            <div class="card-top">
+              <span class="card-pill">Produk Baru</span>
+              <h3>Peluncuran GSX-R1000R 2026 di Indonesia</h3>
+              <p>Suzuki Indonesia resmi meluncurkan GSX-R1000R dengan teknologi terkini dari MotoGP.</p>
+            </div>
+            <div class="news-meta">
+              <span>27 Mei 2026</span>
+              <span>1250</span>
+            </div>
+            <a class="card-button" href="#">Baca Selengkapnya</a>
+          </article>
+          <article class="news-card">
+            <div class="card-top">
+              <span class="card-pill">Promo</span>
+              <h3>Promo Spesial Akhir Tahun Suzuki</h3>
+              <p>Dapatkan diskon hingga 20 juta untuk pembelian motor Suzuki pilihan.</p>
+            </div>
+            <div class="news-meta">
+              <span>25 Mei 2026</span>
+              <span>890</span>
+            </div>
+            <a class="card-button" href="#">Baca Selengkapnya</a>
+          </article>
+          <article class="news-card">
+            <div class="card-top">
+              <span class="card-pill">Tips</span>
+              <h3>Tips Merawat Motor di Musim Hujan</h3>
+              <p>Panduan lengkap merawat motor Suzuki agar tetap prima saat musim hujan.</p>
+            </div>
+            <div class="news-meta">
+              <span>23 Mei 2026</span>
+              <span>650</span>
+            </div>
+            <a class="card-button" href="#">Baca Selengkapnya</a>
+          </article>
+          <article class="news-card">
+            <div class="card-top">
+              <span class="card-pill">Produk Baru</span>
+              <h3>V-Strom 1050 Raih Best Adventure Bike</h3>
+              <p>V-Strom 1050 dinobatkan sebagai motor adventure terbaik 2026 oleh majalah otomotif.</p>
+            </div>
+            <div class="news-meta">
+              <span>20 Mei 2026</span>
+              <span>780</span>
+            </div>
+            <a class="card-button" href="#">Baca Selengkapnya</a>
+          </article>
+        </div>
+      </section>
+      <section>
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;">
+          <h2 class="section-title">Dokumentasi Kegiatan</h2>
+        </div>
+        <div class="cards-grid docs-grid">
+          <article class="docs-card">
+            <div class="doc-visual"></div>
+            <div class="doc-content">
+              <span class="doc-pill">Touring</span>
+              <h3>Touring Bali 2026</h3>
+            </div>
+          </article>
+          <article class="docs-card">
+            <div class="doc-visual"></div>
+            <div class="doc-content">
+              <span class="doc-pill">Event</span>
+              <h3>Test Ride Surabaya</h3>
+            </div>
+          </article>
+          <article class="docs-card">
+            <div class="doc-visual"></div>
+            <div class="doc-content">
+              <span class="doc-pill">Showroom</span>
+              <h3>Showroom Suzuki Jakarta</h3>
+            </div>
+          </article>
+          <article class="docs-card">
+            <div class="doc-visual"></div>
+            <div class="doc-content">
+              <span class="doc-pill">Event</span>
+              <h3>GSX-R1000R Launch</h3>
+            </div>
+          </article>
+          <article class="docs-card">
+            <div class="doc-visual"></div>
+            <div class="doc-content">
+              <span class="doc-pill">Touring</span>
+              <h3>Sunday Ride Bandung</h3>
+            </div>
+          </article>
+          <article class="docs-card">
+            <div class="doc-visual"></div>
+            <div class="doc-content">
+              <span class="doc-pill">Touring</span>
+              <h3>V-Strom Adventure</h3>
+            </div>
+          </article>
+        </div>
+        <a class="view-all-btn" href="#">Lihat Semua Galeri</a>
+      </section>
+      <footer class="footer-card">
+        <div>
+          <img src="image 2.png" alt="Suzuki logo" class="footer-logo">
+          <div class="footer-info">Platform informasi terlengkap untuk motor Suzuki Indonesia</div>
+        </div>
+        <div class="footer-column">
+          <h4>Produk</h4>
+          <p>Sport</p>
+          <p>Matic</p>
+          <p>Adventure</p>
+          <p>Bebek</p>
+        </div>
+        <div class="footer-column">
+          <h4>Informasi</h4>
+          <p>Event</p>
+          <p>Berita</p>
+          <p>Promo</p>
+          <p>Dealer</p>
+        </div>
+        <div class="footer-column">
+          <h4>Kontak</h4>
+          <p>Customer Service</p>
+          <p>WhatsApp Sales</p>
+          <p>Email Support</p>
+          <p>Lokasi Dealer</p>
+        </div>
+      </footer>
+      <div class="footer-bottom">© 2026 Suzuki Motorcycle Indonesia. Semua hak dilindungi.</div>
+    </div>
+  </div>
+</body>
+</html>
